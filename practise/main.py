@@ -68,7 +68,7 @@ def linear_regression_2(x, y):
 
     fig = plt.figure()
     ax = fig.add_subplot(111, projection='3d')
-    ax.scatter(xs=x["GRE"], ys=x["CGPA"], zs=y , s=40, alpha=1, edgecolors='w', color='r')
+    ax.scatter(xs=x.name[0], ys=x.name[1], zs=y , s=40, alpha=1, edgecolors='w', color='r')
 
     print("Plotting")
     xx1, xx2 = np.meshgrid(

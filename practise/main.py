@@ -8,7 +8,7 @@ from sklearn.linear_model import LinearRegression
 from sklearn.metrics import r2_score
 from sklearn.model_selection import train_test_split
 
-csv_file = "../data/Admission_Predict.csv"
+csv_file = "./data/Admission_Predict.csv"
 df = pd.read_csv(csv_file, index_col=0)
 
 df = df.rename(columns={
@@ -38,9 +38,9 @@ def linear_regression_1(x, y):
     print("Coef", lr.coef_)
     print("beta0", lr.intercept_)
 
+    print("Plotting")
     plt.scatter(x_train, y_train, s=40, alpha=1, edgecolors='w', color='r')
 
-    print("Plotting")
     xx = np.linspace(x.min(), x.max(), num=20).reshape(-1, 1)
     yy = lr.predict(xx)
     plt.plot(xx, yy.reshape(-1, 1), color='b')
@@ -66,31 +66,29 @@ def linear_regression_2(x, y):
     print("Coef", lr.coef_)
     print("beta0", lr.intercept_)
 
+    print("Plotting")
     fig = plt.figure()
     ax = fig.add_subplot(111, projection='3d')
-    ax.scatter(xs=x["GRE"], ys=x["CGPA"], zs=y , s=40, alpha=1, edgecolors='w', color='r')
+    ax.scatter(xs=x[x.columns[0]], ys=x[x.columns[1]], zs=y , s=40, alpha=1, edgecolors='w', color='r')
 
-    print("Plotting")
     xx1, xx2 = np.meshgrid(
-        np.linspace(x['GRE'].min(), x['GRE'].max(), num=20),
-        np.linspace(x['CGPA'].min(), x['CGPA'].max(), num=20)
+        np.linspace(x[x.columns[0]].min(), x[x.columns[0]].max(), num=20),
+        np.linspace(x[x.columns[1]].min(), x[x.columns[1]].max(), num=20)
     )
     XX = np.column_stack([xx1.ravel(), xx2.ravel()])
 
     yy = lr.predict(XX)
     ax.plot_surface(xx1, xx2, yy.reshape(xx1.shape), color='b')
 
-    ax.set_xlabel('GRE')
-    ax.set_ylabel('CGPA')
-    ax.set_zlabel('Chance')
+    ax.set_xlabel(x.columns[0])
+    ax.set_ylabel(x.columns[1])
+    ax.set_zlabel(y.name)
 
     plt.show()
 
 def linear_regression_all(df: pd.DataFrame):
-    """
-    Linear regression multiple features
-
-    """
+    "Linear regression multiple features"
+    
     y = df["Chance"]
     x = df.drop(["Chance"],axis=1)
 
@@ -107,5 +105,5 @@ def linear_regression_all(df: pd.DataFrame):
 if __name__ == "__main__":
     print("Linear regression with 1 feature")
     linear_regression_1(df["GRE"], df["Chance"])
-    linear_regression_2(df[["GRE", "CGPA"]], df["Chance"])
+    linear_regression_2(df[["TOEFL", "CGPA"]], df["Chance"])
     linear_regression_all(df)

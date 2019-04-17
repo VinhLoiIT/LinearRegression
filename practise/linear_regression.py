@@ -7,6 +7,7 @@ import numpy as np
 from sklearn.linear_model import LinearRegression
 from sklearn.metrics import r2_score
 from sklearn.model_selection import train_test_split
+import sklearn.linear_model as lm
 
 csv_file = "./data/Admission_Predict.csv"
 df = pd.read_csv(csv_file, index_col=0)
@@ -101,6 +102,21 @@ def linear_regression_all(df: pd.DataFrame):
     print("r_square score: ", r2_score(y_train, y_lr_train))
     print("Coef", lr.coef_)
     print("beta0", lr.intercept_)
+
+def elastic_net():
+    y = df["Chance"]
+    x = df.drop(["Chance"],axis=1)
+
+    # 80% train, 20% test. We not use test set yet
+    x_train, x_test,y_train, y_test = train_test_split(x,y,test_size = 0.20,random_state = 42)
+
+    lr = LinearRegression().fit(x_train,y_train)
+    y_lr_train = lr.predict(x_train)
+
+    print("r_square score: ", r2_score(y_train, y_lr_train))
+    print("Coef", lr.coef_)
+    print("beta0", lr.intercept_)
+    pass
 
 if __name__ == "__main__":
     print("Linear regression with 1 feature")

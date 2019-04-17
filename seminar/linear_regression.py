@@ -14,7 +14,7 @@
 # Dataset được lấy từ [Kaggle - Graduate Admissions](https://www.kaggle.com/mohansacharya/graduate-admissions). Do có một vài column tên khá dài và lỗi typo nên đổi tên để dễ làm việc hơn
 #%%
 import pandas as pd
-csv_file = "Admission_Predict.csv"
+csv_file = "./data/Admission_Predict.csv"
 df = pd.read_csv(csv_file, index_col=0)
 
 # Đổi tên một số cột trong dataset

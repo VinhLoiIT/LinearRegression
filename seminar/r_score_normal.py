@@ -23,7 +23,7 @@ ax.set_xlabel("z")
 ax.set_ylabel("y")
 ax.scatter(z,y, label="real data")
 ax.legend()
-fig.savefig("real_data.png")
+fig.savefig("real_data_1.png")
 
 
 z_0 = np.ones((n,1))
@@ -37,7 +37,7 @@ y_plot = Z.dot(b_hat)
 b_hat_ravel = b_hat.ravel()
 ax.plot(z,y_plot, color='r', label="y = {:.02f} + {:.02f}z".format(b_hat_ravel[0], b_hat_ravel[1]))
 ax.legend()
-fig.savefig("least_square_estimated.png")
+fig.savefig("least_square_estimated_1.png")
 
 # show r_square score
 r_squares = np.var(y_plot)/np.var(y)

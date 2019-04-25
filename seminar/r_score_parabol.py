@@ -20,7 +20,7 @@ np.random.seed(seed) # make repeate random values
 n = 20
 z_1 = np.linspace(-10,10,n).transpose().reshape(-1,1)
 epsilon = np.random.randn(n,1) # n rows, 1 column
-y = -3*z_1**2+4*z_1-1 #+ epsilon
+y = -3*z_1**2+4*z_1-1 + epsilon
 
 # plot data
 fig = plt.figure()
@@ -49,19 +49,29 @@ props = dict(boxstyle="round", facecolor="wheat", alpha=0.5)
 ax.text(-10,-2,"r-squares={:.02f}".format(r_squares), bbox=props)
 fig.savefig("r_square_2.png")
 
-z_2 = z_1**2
-Z = np.hstack((Z, z_2))
-b_hat = least_square_estimation(Z, Y)
-# print(b_hat.reshape(1,-1))
-print("Beta_2 =",b_hat)
-
 plt.close()
+
+# End section 1 here --------------
+
+# Section 2
+z_2 = z_1**2
 
 fig = plt.figure()
 ax = fig.add_subplot(111, projection='3d')
+ax.set_title("Linear Regression")
+ax.set_xlabel(r"$z_1$")
+ax.set_ylabel(r"$z_2$")
+ax.set_zlabel("y")
 
-ax.scatter(xs=z_1, ys=z_2, zs=y, s=40, alpha=1, edgecolors='w', color='r')
+ax.scatter(xs=z_1, ys=z_2, zs=y, label="real_data")
+ax.legend()
 fig.savefig("real_data_2_after.png")
+
+Z = np.hstack((Z, z_2))
+b_hat = least_square_estimation(Z, Y)
+print("Beta_2 =",b_hat)
+
+
 
 xx1, xx2 = np.meshgrid(
     np.linspace(z_1.min(), z_1.max(), num=n),
@@ -71,15 +81,12 @@ XX = np.column_stack([np.ones((n,n)).ravel(), xx1.ravel(), xx2.ravel()])
 
 Z = XX
 yy = Z.dot(b_hat)
-ax.plot_surface(xx1, xx2, yy.reshape(xx1.shape))
+ax.plot_surface(xx1, xx2, yy.reshape(xx1.shape), color="red")
 fig.savefig("least_square_estimated_2_after.png")
 
 r_squares = np.var(yy)/np.var(Y)
 props = dict(boxstyle="round", facecolor="wheat", alpha=0.5)
 ax.text(-10,-2,5,s="r-squares = {:.02f}".format(r_squares), bbox=props)
-ax.set_xlabel("z")
-ax.set_ylabel("z^2")
-ax.set_zlabel("y")
 fig.savefig("r_square_2_after.png")
 
 plt.show()
